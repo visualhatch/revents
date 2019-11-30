@@ -1,14 +1,15 @@
 import React, { Component } from "react";
-import { Button, Icon, Item, List, Segment } from "semantic-ui-react";
+import {Button, Icon, Item, ItemGroup, List, Segment, SegmentGroup} from "semantic-ui-react";
 import EventListAttendee from "./EventListAttendee";
+import { Link } from "react-router-dom";
 
 class EventListItem extends Component {
   render() {
-    const { event, selectEvent, deleteEvent } = this.props;
+    const { event, deleteEvent } = this.props;
     return (
-      <Segment.Group>
+      <SegmentGroup>
         <Segment>
-          <Item.Group>
+          <ItemGroup>
             <Item>
               <Item.Image size="tiny" circular src={event.hostPhotoURL} />
               <Item.Content>
@@ -16,7 +17,7 @@ class EventListItem extends Component {
                 <Item.Description>Hosted by {event.hostedBy}</Item.Description>
               </Item.Content>
             </Item>
-          </Item.Group>
+          </ItemGroup>
         </Segment>
         <Segment>
           <span>
@@ -41,13 +42,14 @@ class EventListItem extends Component {
             onClick={() => deleteEvent(event.id)}
           />
           <Button
+            as={Link}
+            to={`/events/${event.id}`}
             color="teal"
             floated="right"
             content="View"
-            onClick={() => selectEvent(event)}
           />
         </Segment>
-      </Segment.Group>
+      </SegmentGroup>
     );
   }
 }
