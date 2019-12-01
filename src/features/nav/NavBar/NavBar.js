@@ -1,25 +1,39 @@
 import React, { Component } from "react";
-import {Button, Container, Menu, MenuItem} from "semantic-ui-react";
+import { Button, Container, Menu, MenuItem } from "semantic-ui-react";
 import { Link, NavLink } from "react-router-dom";
 import SignedOutMenu from "../Menus/SignedOutMenu";
 import SignedInMenu from "../Menus/SignedInMenu";
 import { withRouter } from "react-router";
+import { openModal } from "../../../store/actions/modalActions";
+import { connect } from "react-redux";
+import { logout } from "../../../store/actions/authActions";
+
+const actions = {
+  openModal,
+  logout
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
 class NavBar extends Component {
-  state = {
-    authenticated: true
+  handleSignIn = () => {
+    this.props.openModal("LoginModal");
   };
 
-  handleSignIn = () => {
-    this.setState({ authenticated: true });
+  handleRegister = () => {
+    this.props.openModal("RegisterModal");
   };
+
   handleSignOut = () => {
-    this.setState({ authenticated: false });
+    this.props.logout();
     this.props.history.push("/");
   };
 
   render() {
-    const { authenticated } = this.state;
+    const { auth } = this.props;
+    const authenticated = auth.authenticated;
     return (
       <Menu inverted fixed="top">
         <Container>
@@ -41,9 +55,15 @@ class NavBar extends Component {
             />
           </MenuItem>
           {authenticated ? (
-            <SignedInMenu signOut={this.handleSignOut} />
+            <SignedInMenu
+              signOut={this.handleSignOut}
+              currentUser={auth.currentUser}
+            />
           ) : (
-            <SignedOutMenu signIn={this.handleSignIn} />
+            <SignedOutMenu
+              signIn={this.handleSignIn}
+              register={this.handleRegister}
+            />
           )}
         </Container>
       </Menu>
@@ -51,4 +71,4 @@ class NavBar extends Component {
   }
 }
 
-export default withRouter(NavBar);
+export default withRouter(connect(mapStateToProps, actions)(NavBar));
