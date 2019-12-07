@@ -9,6 +9,7 @@ import {
   updateEvent
 } from "../../../store/actions/eventActions";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
+import EventActivity from "../EventActivity/EventActivity";
 
 const mapStateToProps = state => ({
   events: state.events,
@@ -35,7 +36,7 @@ class EventDashboard extends Component {
           <EventList events={events} deleteEvent={this.handleDeleteEvent} />
         </GridColumn>
         <GridColumn width={6}>
-          <h2>Activity Feed</h2>
+          <EventActivity/>
         </GridColumn>
       </Grid>
     );
