@@ -12,7 +12,12 @@ const actions = {
 
 const LoginForm = ({ login, handleSubmit }) => {
   return (
-    <Form error size="large" onSubmit={handleSubmit(login)} autoComplete={'off'}>
+    <Form
+      error
+      size="large"
+      onSubmit={handleSubmit(login)}
+      autoComplete={"off"}
+    >
       <Segment>
         <Field
           name="email"
